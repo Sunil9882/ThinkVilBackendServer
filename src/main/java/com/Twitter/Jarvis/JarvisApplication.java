@@ -13,7 +13,9 @@ public class JarvisApplication {
 		System.setProperty("DB_URL", dotenv.get("DB_URL"));
 		System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
 		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
-		System.setProperty("FRONTEND_URL", dotenv.get("FRONTEND_URL"));
+		System.setProperty("FRONTEND_URL_LOCAL", dotenv.get("FRONTEND_URL_LOCAL"));
+		System.setProperty("FRONTEND_URL_PROD", dotenv.get("FRONTEND_URL_PROD"));
+		System.setProperty("FRONTEND_URL_DEV", dotenv.get("FRONTEND_URL_DEV"));
 		SpringApplication.run(JarvisApplication.class, args);
 	}
 

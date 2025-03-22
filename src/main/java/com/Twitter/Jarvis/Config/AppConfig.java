@@ -22,8 +22,17 @@ import java.util.Collections;
 @EnableWebSecurity
 public class AppConfig {
 
-    @Value("${frontend.url}")
-    private String frontendURL;
+    @Value("${frontend.url.local}")
+    private String localfrontendURL;
+
+    @Value("${frontend.url.prod}")
+    private String prodFrontendUrl;
+
+    @Value("${frontend.url.dev}")
+    private String devFrontendUrl;
+
+    @Value("${spring.profiles.active}")
+    private String environment;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -49,7 +58,7 @@ public class AppConfig {
                 @Override
                 public CorsConfiguration getCorsConfiguration(HttpServletRequest request){
                     CorsConfiguration cfg = new CorsConfiguration();
-                    cfg.setAllowedOrigins(Arrays.asList(frontendURL));
+                    cfg.setAllowedOrigins(Arrays.asList(getFrontendURL()));
                     cfg.setAllowedMethods(Collections.singletonList("*"));
                     cfg.setAllowCredentials(true);
                     cfg.setAllowedHeaders(Collections.singletonList("*"));
@@ -66,5 +75,19 @@ public class AppConfig {
             return new BCryptPasswordEncoder();
         }
 
+        public String getFrontendURL() {
+            String frontendUrl;
+            if(environment.equals("prod")) {
+                frontendUrl = prodFrontendUrl;
+            }
+            else if(environment.equals("dev")) {
+                frontendUrl = devFrontendUrl;
+            }
+            else {
+                frontendUrl = localfrontendURL;
+            }
+
+            return frontendUrl;
+        }
 
 }
