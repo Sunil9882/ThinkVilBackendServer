@@ -36,39 +36,37 @@ public class AppConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests(Authorize -> Authorize.requestMatchers("/api/**").authenticated()
+        http
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-                .csrf().disable()
-                .cors().and()
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Fix: Register the CORS source
                 .httpBasic();
 
         return http.build();
     }
 
-    private CorsConfigurationSource corsConfigurationSource(){
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(getFrontendURL())); // Ensure this returns the correct URL
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Fix: Define methods explicitly
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control")); // Fix: Define allowed headers
+        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+        configuration.setMaxAge(3600L);
 
-            return new CorsConfigurationSource(){
-                @Override
-                public CorsConfiguration getCorsConfiguration(HttpServletRequest request){
-                    CorsConfiguration cfg = new CorsConfiguration();
-                    cfg.setAllowedOrigins(Arrays.asList(getFrontendURL()));
-                    cfg.setAllowedMethods(Collections.singletonList("*"));
-                    cfg.setAllowCredentials(true);
-                    cfg.setAllowedHeaders(Collections.singletonList("*"));
-                    cfg.setExposedHeaders(Arrays.asList("Authorization"));
-                    cfg.setMaxAge(3600L);
+        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
 
-                    return cfg;
-                }
-            };
-        }
+        return source;
+    }
 
         @Bean
         public PasswordEncoder passwordEncoder(){
