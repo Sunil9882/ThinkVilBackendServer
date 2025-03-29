@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("auth/")
 //@CrossOrigin(origins = "*")
 public class AuthController {
 
@@ -35,7 +35,7 @@ public class AuthController {
     @Autowired
     private CustomUserDetailsServiceImpl customUserDetailsService;
 
-    @PostMapping("/signup")
+    @PostMapping("signup")
     public ResponseEntity<AuthResponse> cretaeUserHandler(@RequestBody UserConfigurationModel userConfigurationModel) throws Exception{
 
         try{
@@ -73,7 +73,7 @@ public class AuthController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("signin")
     public ResponseEntity<AuthResponse> userSignIn(@RequestBody UserConfigurationModel userConfigurationModel) throws Exception{
         try{
             String username = userConfigurationModel.getEmail();
@@ -93,7 +93,7 @@ public class AuthController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/health")
+    @GetMapping("health")
     public String greeting(){
         return "good :)";
     }

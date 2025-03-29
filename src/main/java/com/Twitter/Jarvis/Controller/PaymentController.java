@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/payment")
+@RequestMapping("api/payment/")
 public class PaymentController {
 
     @Autowired
@@ -19,7 +19,7 @@ public class PaymentController {
 //    @Autowired
 //    private RazorPayService raz
 
-    @PostMapping("/create-order")
+    @PostMapping("create-order")
     OrderEntityModel createOrder(@RequestBody Map<String, Integer> data) {
         try {
             return razorpayService.createOrder(data);
@@ -28,7 +28,7 @@ public class PaymentController {
         }
     }
 
-    @PostMapping("/verify-payment")
+    @PostMapping("verify-payment")
     public String verifyPayment(@RequestBody Map<String, Object> data) {
         try {
             return razorpayService.verifyPayment(data);

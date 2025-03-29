@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/donation")
+@RequestMapping("api/donation/")
 public class DonationController {
 
     @Autowired
     private DonationService donationService;
 
-    @PostMapping("/save")
+    @PostMapping("save")
     public PaymentModel createPayment(@RequestBody PaymentModel paymentModel) {
         try {
             return donationService.donationSave(paymentModel);
