@@ -21,71 +21,26 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
-
-    @Value("${frontend.url.local}")
-    private String localfrontendURL;
-
-    @Value("${frontend.url.prod}")
-    private String prodFrontendUrl;
-
-    @Value("${frontend.url.dev}")
-    private String devFrontendUrl;
-
-    @Value("${spring.profiles.active}")
-    private String environment;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/**").authenticated()
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeHttpRequests(Authorize -> Authorize.requestMatchers("/api/**").authenticated()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Fix: Register the CORS source
+                .csrf().disable()
+                .cors().and()
                 .httpBasic();
 
         return http.build();
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(getFrontendURL())); // Ensure this returns the correct URL
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Fix: Define methods explicitly
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control")); // Fix: Define allowed headers
-        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
-        configuration.setMaxAge(3600L);
-
-        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
-
-        return source;
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
-
-        @Bean
-        public PasswordEncoder passwordEncoder(){
-            return new BCryptPasswordEncoder();
-        }
-
-        public String getFrontendURL() {
-            String frontendUrl;
-            if(environment.equals("prod")) {
-                frontendUrl = prodFrontendUrl;
-            }
-            else if(environment.equals("dev")) {
-                frontendUrl = devFrontendUrl;
-            }
-            else {
-                frontendUrl = localfrontendURL;
-            }
-
-            return frontendUrl;
-        }
-
 }
