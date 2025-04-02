@@ -16,6 +16,8 @@ public class JarvisApplication {
 		System.setProperty("FRONTEND_URL_LOCAL", dotenv.get("FRONTEND_URL_LOCAL"));
 		System.setProperty("FRONTEND_URL_PROD", dotenv.get("FRONTEND_URL_PROD"));
 		System.setProperty("FRONTEND_URL_DEV", dotenv.get("FRONTEND_URL_DEV"));
+		System.setProperty("RAZORPAY_KEY", dotenv.get("RAZORPAY_KEY"));
+		System.setProperty("RAZORPAY_SECRET", dotenv.get("RAZORPAY_SECRET"));
 		SpringApplication.run(JarvisApplication.class, args);
 	}
 

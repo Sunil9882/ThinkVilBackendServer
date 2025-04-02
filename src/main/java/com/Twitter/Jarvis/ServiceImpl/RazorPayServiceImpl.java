@@ -1,7 +1,6 @@
 package com.Twitter.Jarvis.ServiceImpl;
 
 import com.Twitter.Jarvis.Model.OrderEntityModel;
-import com.Twitter.Jarvis.Model.PaymentModel;
 import com.Twitter.Jarvis.Repository.OrderRepository;
 import com.Twitter.Jarvis.Repository.PaymentRepository;
 import com.Twitter.Jarvis.Service.RazorPayService;
@@ -17,7 +16,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Base64;
 import java.util.Map;
 
 @Service

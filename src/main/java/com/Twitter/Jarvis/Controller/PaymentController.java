@@ -1,9 +1,7 @@
 package com.Twitter.Jarvis.Controller;
 
 import com.Twitter.Jarvis.Model.OrderEntityModel;
-import com.Twitter.Jarvis.Model.PaymentModel;
 import com.Twitter.Jarvis.Service.RazorPayService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +13,6 @@ public class PaymentController {
 
     @Autowired
     private RazorPayService razorpayService;
-
-//    @Autowired
-//    private RazorPayService raz
 
     @PostMapping("create-order")
     OrderEntityModel createOrder(@RequestBody Map<String, Integer> data) {

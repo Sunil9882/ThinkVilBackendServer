@@ -36,7 +36,7 @@ public class AuthController {
     private CustomUserDetailsServiceImpl customUserDetailsService;
 
     @PostMapping("signup")
-    public ResponseEntity<AuthResponse> cretaeUserHandler(@RequestBody UserConfigurationModel userConfigurationModel) throws Exception{
+    public ResponseEntity<AuthResponse> createUserHandler(@RequestBody UserConfigurationModel userConfigurationModel) throws Exception{
 
         try{
             String email = userConfigurationModel.getEmail();
@@ -67,8 +67,8 @@ public class AuthController {
             return new ResponseEntity<>(res, HttpStatus.CREATED);
         }
         catch (Exception e){
-//            logger.debug(e);
-            System.out.println(e);
+            logger.debug(e.getMessage());
+//            System.out.println(e);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }

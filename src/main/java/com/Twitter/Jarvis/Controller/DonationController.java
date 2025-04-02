@@ -1,5 +1,6 @@
 package com.Twitter.Jarvis.Controller;
 
+import com.Twitter.Jarvis.Dto.DonationServiceDto;
 import com.Twitter.Jarvis.Model.PaymentModel;
 import com.Twitter.Jarvis.Service.DonationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,9 @@ public class DonationController {
     private DonationService donationService;
 
     @PostMapping("save")
-    public PaymentModel createPayment(@RequestBody PaymentModel paymentModel) {
+    public PaymentModel createPayment(@RequestBody DonationServiceDto donationServiceDto) {
         try {
-            return donationService.donationSave(paymentModel);
+            return donationService.donationSave(donationServiceDto);
         } catch (Exception e) {
             return null;
         }
