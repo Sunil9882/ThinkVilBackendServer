@@ -42,7 +42,6 @@ public class AuthController {
             String email = userConfigurationModel.getEmail();
             String password = userConfigurationModel.getPassword();
             String fullName = userConfigurationModel.getFullName();
-            String birthDate = userConfigurationModel.getDateOfBirth();
 
             UserConfigurationModel isEmailExit = userRepository.findByEmail(email);
             if(isEmailExit != null){
@@ -53,7 +52,6 @@ public class AuthController {
             createdUser.setEmail(email);
             createdUser.setFullName(fullName);
             createdUser.setPassword(passwordEncoder.encode(password));
-            createdUser.setDateOfBirth(birthDate);
 
             UserConfigurationModel savedUser = userRepository.save(createdUser);
 

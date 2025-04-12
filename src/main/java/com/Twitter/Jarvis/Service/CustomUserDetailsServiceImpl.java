@@ -21,9 +21,6 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserConfigurationModel userConfigurationModel = userRepository.findByEmail(username);
 
-        if(userConfigurationModel == null || userConfigurationModel.isLogin_with_google()){
-            throw new UsernameNotFoundException("username not found with email"+username);
-        }
         List<GrantedAuthority> authorities = new ArrayList<>();
         return new User(userConfigurationModel.getEmail(),userConfigurationModel.getPassword(), authorities);
     }
