@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 
     final static String GOOGLE_AUTH_URL = "https://oauth2.googleapis.com/token";
     final static String GITHUB_AUTH_URL = "https://github.com/login/oauth/access_token";
-    final static String REDIRECT_URL = "https://www.thinkvil.com/oauth2/authorization/google";
-    final static String GITHUB_REDIRECT_URL = "https://www.thinkvil.com/oauth2/authorization/github";
+    final static String REDIRECT_URL = "https://www.edu.thinkvil.com/oauth2/authorization/google";
+    final static String GITHUB_REDIRECT_URL = "https://www.edu.thinkvil.com/oauth2/authorization/github";
 
     final static String USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo?id_token=";
     final static String GITHUB_USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo?id_token=";
